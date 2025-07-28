@@ -32,7 +32,7 @@ function App2() {
   const [result, setResult] = useState<number | null>(null);
 
   const handleClick = async () => {
-    const res = await fetch("http://localhost:5000/api/add", {
+    const res = await fetch("http://localhost:5000/api/calculator/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ a: Number(a), b: Number(b) }),
@@ -41,26 +41,39 @@ function App2() {
     setResult(json.result);
   };
 
+  const handleMinusClick = async () => {
+    const res = await fetch("http://localhost:5000/api/calculator/subtract", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ a: Number(a), b: Number(b) }),
+    });
+    const json = await res.json();
+    setResult(json.result);
+  };
+  
   return (
-      <div style={{ padding: "2rem" }}>
-        <h2>Simple Add App</h2>
-        <InputGroup
-            placeholder="First number"
-            value={a}
-            onChange={(e) => setA(e.target.value)}
-        />
-        <br />
-        <InputGroup
-            placeholder="Second number"
-            value={b}
-            onChange={(e) => setB(e.target.value)}
-        />
-        <br />
-        <Button intent="primary" onClick={handleClick}>
-          Calculate
-        </Button>
+    <div style={{ padding: "2rem" }}>
+      <h2>Simple Add App</h2>
+      <InputGroup
+          placeholder="First number"
+          value={a}
+          onChange={(e) => setA(e.target.value)}
+      />
+      <br />
+      <InputGroup
+          placeholder="Second number"
+          value={b}
+          onChange={(e) => setB(e.target.value)}
+      />
+      <br />
+      <Button intent="primary" onClick={handleClick}>
+        Add
+      </Button>
+      <Button intent="primary" onClick={handleMinusClick}> 
+        Subtract
+      </Button>
         {result !== null && <p>Result: {result}</p>}
-      </div>
+    </div>
   );
 }
 export default App2;
